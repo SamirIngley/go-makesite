@@ -1,4 +1,5 @@
 # 🔗 makesite
+## Custom Static Site Generator
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/YOUR_USERNAME/YOUR_REPONAME)](https://goreportcard.com/report/github.com/YOUR_USERNAME/YOUR_REPONAME)
 
