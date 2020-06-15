@@ -1,13 +1,10 @@
 package main
 
-<<<<<<< HEAD
 import (
 	"io/ioutil"
+	"fmt"
 )
 
-func main() {
-
-}
 
 func readFile() string {
 	fileContents, err := ioutil.ReadFile("first-post.txt")
@@ -18,11 +15,18 @@ func readFile() string {
 	return string(fileContents)
 }
 
-func renderTemplate()
-=======
-import "fmt"
+func renderTemplate(filename string, data string) {
+	cont := post{Content: data}
+	tmp := template.Must(template.New("template.tmpl").ParseFiles(filename))
+
+	var err error
+	err = t.Execute(os.Stdout , cont)
+	if err != nil {
+		panic(err)
+	}
+}
+
 
 func main() {
 	fmt.Println("Hello, world!")
 }
->>>>>>> 9514ac8a2c135a448a2b15a4b246dcd5d59ee7bf
