@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -47,5 +48,10 @@ func saveToFile(filename string, readThis string) {
 func main() {
 	fmt.Printf(readFile("first-post.txt"))
 	renderTemplate("first-post.txt")
-	saveToFile("first-post.html", "first-post.txt")
+	// saveToFile("first-post.html", "first-post.txt")
+
+	examplePtr := flag.String("file", "first-post", " Help text.")
+	flag.Parse()
+
+	saveToFile(*examplePtr+".html", *examplePtr+".txt")
 }
