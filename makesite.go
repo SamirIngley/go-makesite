@@ -31,10 +31,10 @@ func renderTemplate(filename string) {
 	}
 }
 
-func saveToFile(filename string) {
+func saveToFile(filename string, readThis string) {
 
 	file, err := os.Create(filename)
-	cont := post{Content: readFile(filename)}
+	cont := post{Content: readFile(readThis)}
 
 	tmp := template.Must(template.New("template.tmpl").ParseFiles("template.tmpl"))
 
@@ -47,5 +47,5 @@ func saveToFile(filename string) {
 func main() {
 	fmt.Printf(readFile("first-post.txt"))
 	renderTemplate("first-post.txt")
-	saveToFile("first-post.html")
+	saveToFile("first-post.html", "first-post.txt")
 }
