@@ -32,6 +32,17 @@ func renderTemplate(filename string) {
 	}
 }
 
+func activeFlag(name string) bool {
+	active := false
+	flag.Visit(func(f *flag.Flag) {
+		if f.Name == name {
+			active = true
+		}
+	})
+
+	return active
+}
+
 func saveToFile(filename string, readThis string) {
 
 	file, err := os.Create(filename)
@@ -52,6 +63,26 @@ func main() {
 
 	examplePtr := flag.String("file", "first-post", " Help text.")
 	flag.Parse()
+	dirPtr := flag.String("dir", ".", "pull files from")
+	flag.Parse()
 
 	saveToFile(*examplePtr+".html", *examplePtr+".txt")
+
+	if activeFlag("dir") {
+		files := readFile(*dirPtr)
+
+		for _, file := range files {
+
+		}
+
+	} else if activeFlag("md") {
+
+		saveToFile(template, fileName)
+
+	}
+
+	content := readFile(*filePtr)
+	template := renderTemplate(content)
+	saveToFile(template, fileName)
+
 }
