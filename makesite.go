@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"text/template"
 )
@@ -53,6 +54,27 @@ func saveToFile(filename string, readThis string) {
 	err = tmp.Execute(file, cont)
 	if err != nil {
 		panic(err)
+	}
+}
+
+func parser() {
+	var dir string
+	flag.StringVar(&dir, "dir", "", " directory")
+	flag.Parse()
+
+	fmt.Println("Directory:", dir)
+
+	files, err := ioutil.ReadDir(dir)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, file := range files {
+		if (file.Name()) == true {
+			fmt.Println(file.Name())
+			saveToFile("template.tmpl", file.Name())
+		}
 	}
 }
 
