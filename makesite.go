@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"text/template"
 )
@@ -33,17 +32,6 @@ func renderTemplate(filename string) {
 	}
 }
 
-func activeFlag(name string) bool {
-	active := false
-	flag.Visit(func(f *flag.Flag) {
-		if f.Name == name {
-			active = true
-		}
-	})
-
-	return active
-}
-
 func saveToFile(filename string, readThis string) {
 
 	file, err := os.Create(filename)
@@ -57,27 +45,6 @@ func saveToFile(filename string, readThis string) {
 	}
 }
 
-func parser() {
-	var dir string
-	flag.StringVar(&dir, "dir", "", " directory")
-	flag.Parse()
-
-	fmt.Println("Directory:", dir)
-
-	files, err := ioutil.ReadDir(dir)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, file := range files {
-		if (file.Name()) == true {
-			fmt.Println(file.Name())
-			saveToFile("template.tmpl", file.Name())
-		}
-	}
-}
-
 func main() {
 	fmt.Printf(readFile("first-post.txt"))
 	renderTemplate("first-post.txt")
@@ -85,13 +52,6 @@ func main() {
 
 	examplePtr := flag.String("file", "first-post", " Help text.")
 	flag.Parse()
-	dirPtr := flag.String("dir", ".", "pull files from")
-	flag.Parse()
 
 	saveToFile(*examplePtr+".html", *examplePtr+".txt")
-
-	if activeFlag("dir") {
-	}
-	saveToFile(template, fileName)
-
 }
