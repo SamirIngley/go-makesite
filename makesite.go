@@ -91,20 +91,7 @@ func main() {
 	saveToFile(*examplePtr+".html", *examplePtr+".txt")
 
 	if activeFlag("dir") {
-		files := readFile(*dirPtr)
-
-		for _, file := range files {
-
-		}
-
-	} else if activeFlag("md") {
-
-		saveToFile(template, fileName)
-
 	}
-
-	content := readFile(*filePtr)
-	template := renderTemplate(content)
 	saveToFile(template, fileName)
 
 }
