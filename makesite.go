@@ -4,13 +4,15 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
+	"path/filepath"
 	"text/template"
 )
 
 type post struct{ Content string }
 
-// readFile reads the data from a file
+// reads data from a file -> returns data as a string
 func readFile(filename string) string {
 	dat, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -20,6 +22,7 @@ func readFile(filename string) string {
 	return string(dat)
 }
 
+// renderTemplate reads file data, creates template -> executes template to STDOUT with file data
 func renderTemplate(filename string) {
 
 	cont := post{Content: readFile(filename)}
@@ -32,6 +35,7 @@ func renderTemplate(filename string) {
 	}
 }
 
+// saveToFile creates a file, saves readThis to FILENAME
 func saveToFile(filename string, readThis string) {
 
 	file, err := os.Create(filename)
@@ -45,13 +49,43 @@ func saveToFile(filename string, readThis string) {
 	}
 }
 
+// walks the current file path and checks for ext parameter
+func checkIfTxt(ext string) []string {
+	path, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	extList := []string{}
+
+	filepath.Walk(path, func(path string, fileInfo os.FileInfo, _ error) error {
+		if filepath.Ext(path) == ext {
+			extList = append(extList, fileInfo.Name())
+		}
+		return nil
+	})
+
+	fmt.Println(extList)
+	return extList
+}
+
 func main() {
-	fmt.Printf(readFile("first-post.txt"))
-	renderTemplate("first-post.txt")
+
+	// fmt.Printf(readFile("first-post.txt"))
+	// renderTemplate("first-post.txt")
 	// saveToFile("first-post.html", "first-post.txt")
 
-	examplePtr := flag.String("file", "first-post", " Help text.")
+	// examplePtr := flag.String("file", "first-post", " Help text.")
+	// dirPtr := flag.String("file", "first-post", " Help text.")
+
 	flag.Parse()
 
-	saveToFile(*examplePtr+".html", *examplePtr+".txt")
+	checkIfTxt(".txt")
+
+	// if examplePtr
+	// creates html file from ptr name, and data from ptr text
+	// saveToFile(*examplePtr+".html", *examplePtr+".txt")
+	// else
+	// readFromFile(*dirPtr)
+	// ioutil.readDir https://golang.org/pkg/io/ioutil/
 }
