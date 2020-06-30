@@ -7,11 +7,13 @@ import (
 	"os"
 	"path/filepath"
 	"text/template"
+
+	"github.com/joho/godotenv"
 )
 
 type post struct{ Content string }
 
-// reads data from a file -> returns data as a string
+// readFile reads data from a file -> returns data as a string
 func readFile(filename string) string {
 	dat, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -48,7 +50,7 @@ func saveToFile(filename string, readThis string) {
 	}
 }
 
-// walks the current file path and checks for ext parameter
+// findExt walks the current file path and checks for ext parameter
 func findExt(ext string) []string {
 	path, err := os.Getwd()
 	if err != nil {
@@ -79,24 +81,24 @@ func main() {
 
 	// flag.Parse()
 
+	// FINDS ALL ".txt" FILES IN CURRENT DIRECTORY
 	txtFiles := findExt(".txt")
 
+	// CREATE A TEMPLATE FOR EACH .txt FILE
 	for index, value := range txtFiles {
 		fmt.Println(index, value)
+		// removes the .txt extension so we can add .html to create an html page
 		txtToHTML := value[:len(value)-4] + ".html"
 		// fmt.Println(txtToHTML)
 		saveToFile(txtToHTML, value)
 	}
 
-	// OTHER METHOD FOR GETTING DIRECTORY
-	// files, err := ioutil.ReadDir(".")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// for _, file := range files {
-	// 	fmt.Println(file.Name())
-	// }
+	// GRAB THE API KEY FROM DOTENV
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	fmt.Println(os.Getenv("SECRET_KEY"))
 
 	// saveToFile(*examplePtr+".html", *examplePtr+".txt")
 
