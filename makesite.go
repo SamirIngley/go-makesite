@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -50,7 +49,7 @@ func saveToFile(filename string, readThis string) {
 }
 
 // walks the current file path and checks for ext parameter
-func checkIfTxt(ext string) []string {
+func findExt(ext string) []string {
 	path, err := os.Getwd()
 	if err != nil {
 		log.Fatal(err)
@@ -65,26 +64,44 @@ func checkIfTxt(ext string) []string {
 		return nil
 	})
 
-	fmt.Println(extList)
+	// fmt.Println(extList)
 	return extList
 }
 
 func main() {
 
-	// fmt.Printf(readFile("first-post.txt"))
-	// renderTemplate("first-post.txt")
-	// saveToFile("first-post.html", "first-post.txt")
+	// fmt.Printf(readFile("third-post.txt"))
+	// renderTemplate("third-post.txt")
+	// saveToFile("third-post.html", "third-post.txt")
 
-	// examplePtr := flag.String("file", "first-post", " Help text.")
-	// dirPtr := flag.String("file", "first-post", " Help text.")
+	// file := flag.String("file", "first-post", "Enter file name.")
+	// dir := flag.String("txtFile", "name of a txtFile", "Enter name of text file.")
 
-	flag.Parse()
+	// flag.Parse()
 
-	checkIfTxt(".txt")
+	txtFiles := findExt(".txt")
+
+	for index, value := range txtFiles {
+		fmt.Println(index, value)
+		txtToHTML := value[:len(value)-4] + ".html"
+		// fmt.Println(txtToHTML)
+		saveToFile(txtToHTML, value)
+	}
+
+	// OTHER METHOD FOR GETTING DIRECTORY
+	// files, err := ioutil.ReadDir(".")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// for _, file := range files {
+	// 	fmt.Println(file.Name())
+	// }
+
+	// saveToFile(*examplePtr+".html", *examplePtr+".txt")
 
 	// if examplePtr
 	// creates html file from ptr name, and data from ptr text
-	// saveToFile(*examplePtr+".html", *examplePtr+".txt")
 	// else
 	// readFromFile(*dirPtr)
 	// ioutil.readDir https://golang.org/pkg/io/ioutil/
